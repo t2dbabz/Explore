@@ -2,6 +2,8 @@ package com.t2dbabz.explore.di
 
 import com.t2dbabz.explore.common.Constants
 import com.t2dbabz.explore.data.remote.CountriesApi
+import com.t2dbabz.explore.data.repository.CountryRepositoryImpl
+import com.t2dbabz.explore.domain.model.repository.CountryRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -36,5 +38,11 @@ object AppModule {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(CountriesApi::class.java)
+    }
+
+    @Singleton
+    @Provides
+    fun providesCountryRepository(api: CountriesApi): CountryRepository {
+        return  CountryRepositoryImpl(api)
     }
 }
