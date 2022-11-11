@@ -81,6 +81,7 @@ data class CountryDTO(
     fun toCountry(): Country {
         return Country(
             name = this.name.common,
+            population = this.population,
             capital = this.capital?.first() ?: "none",
             region = this.region,
             languages = this.languages?.values?.first() ?: "Not available",

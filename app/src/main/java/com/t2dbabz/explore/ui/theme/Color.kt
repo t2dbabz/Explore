@@ -13,6 +13,7 @@ val GraySearchText = Color(0xFF667085)
 val FilterBorder = Color(0xFFA9B8D4)
 
 val DarkBackground = Color(0xFF000F24)
+val HeaderColor = Color(0xFF001637)
 
 
 val LightTextGray = Color(0xFF98A2B3)

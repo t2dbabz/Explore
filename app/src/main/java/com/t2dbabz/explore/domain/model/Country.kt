@@ -7,6 +7,7 @@ import kotlinx.parcelize.Parcelize
 data class Country(
     val name: String,
     val capital: String,
+    val population: Int,
     val region: String,
     val languages: String,
     val demonyns: String,

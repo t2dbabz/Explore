@@ -1,3 +1,18 @@
 <resources>
     <string name="app_name">Explore</string>
+    <string name="population">Population:</string>
+    <string name="region">Region:</string>
+    <string name="capital">Capital:</string>
+    <string name="official_language">Official language:</string>
+    <string name="independent">Independent:</string>
+    <string name="un_member">UN member:</string>
+    <string name="demonym">Demonym:</string>
+    <string name="area">Area:</string>
+    <string name="landlocked">Landlocked:</string>
+    <string name="currency">Currency:</string>
+    <string name="currency_symbol">Currency symbol:</string>
+    <string name="geographical_location">Geographical location:</string>
+    <string name="time_zone">Time zone:</string>
+    <string name="dialling_code">Dialling code:</string>
+    <string name="driving_side">Driving side:</string>
 </resources>
