@@ -15,4 +15,5 @@
     <string name="time_zone">Time zone:</string>
     <string name="dialling_code">Dialling code:</string>
     <string name="driving_side">Driving side:</string>
+    <string name="search_country">Search Country</string>
 </resources>

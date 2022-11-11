@@ -30,7 +30,9 @@ fun CountryListScreen(viewModel: MainViewModel, navigator: DestinationsNavigator
     Column(modifier = Modifier
         .fillMaxSize()
         .padding(start = 24.dp, top = 8.dp, end = 24.dp)){
-        SearchBar()
+        SearchBar(searchQuery = state.searchQuery){ query ->
+            viewModel.onEvent(CountryListScreenEvent.OnSearchQueryChange(query))
+        }
         Spacer(modifier = Modifier.height(16.dp))
         CountryListFilterSection(
             onLanguageClicked = {

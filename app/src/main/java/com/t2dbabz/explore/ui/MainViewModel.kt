@@ -8,10 +8,14 @@ import com.t2dbabz.explore.common.Resource
 import com.t2dbabz.explore.domain.model.Country
 import com.t2dbabz.explore.domain.model.repository.CountryRepository
 import com.t2dbabz.explore.ui.screens.country_details.CountryDetailScreenState
+import com.t2dbabz.explore.ui.screens.country_list.CountryListScreenEvent
 import com.t2dbabz.explore.ui.screens.country_list.CountryListScreenState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -22,6 +26,10 @@ class MainViewModel @Inject constructor (private val countryRepository: CountryR
 
     private val _countryDetailScreenState = mutableStateOf(CountryDetailScreenState())
     val countryDetailScreenState: State<CountryDetailScreenState> = _countryDetailScreenState
+
+    private var searchJob: Job? = null
+
+    val filteredList = mutableListOf<Country>()
 
     init {
 
@@ -36,6 +44,7 @@ class MainViewModel @Inject constructor (private val countryRepository: CountryR
                 }
                 is Resource.Success -> {
                     _countryListScreenState.value = CountryListScreenState(countries = result.data ?: emptyList())
+                    result.data?.let { filteredList.addAll(it.toList()) }
                 }
                 is Resource.Error -> {
                     _countryListScreenState.value = CountryListScreenState(error = result.message ?: "Error Occurred")
@@ -49,4 +58,33 @@ class MainViewModel @Inject constructor (private val countryRepository: CountryR
     fun setSelectedCountry(country: Country) {
         _countryDetailScreenState.value = CountryDetailScreenState(country = country)
     }
+
+    fun onEvent(event: CountryListScreenEvent) {
+        when(event) {
+            is CountryListScreenEvent.OnSearchQueryChange -> {
+               _countryListScreenState.value = _countryListScreenState.value.copy(searchQuery = event.query)
+                searchJob?.cancel()
+                searchJob = viewModelScope.launch {
+                    delay(500L)
+                   getSearchList()
+                }
+            }
+        }
+    }
+
+
+    private fun getSearchList(query: String = countryListScreenState.value.searchQuery) {
+        viewModelScope.launch {
+
+            val newCountryList: List<Country> =
+                filteredList.filter {country ->
+                    country.name.contains(query,ignoreCase = true,)
+                }
+
+            _countryListScreenState.value = _countryListScreenState.value.copy(countries = newCountryList)
+        }
+
+    }
+
+
 }
