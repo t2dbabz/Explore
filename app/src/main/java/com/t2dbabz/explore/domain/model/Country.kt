@@ -1,10 +1,14 @@
 package com.t2dbabz.explore.domain.model
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
 data class Country(
     val name: String,
     val capital: String,
     val region: String,
-    val languages: List<String>,
+    val languages: String,
     val demonyns: String,
     val independent: Boolean?,
     val unMember: Boolean,
@@ -15,9 +19,9 @@ data class Country(
     val timeZone: String,
     val diallingCode: String,
     val drivingSide: String,
-    val geographicalLocation: List<Double>,
+    val geographicalLocation: String,
     val flagImage: String,
     val flagImageSVG: String,
     val coatOfArmsImage: String?,
     val coatOfArmsImageSVG: String?
-)
+): Parcelable
