@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.Icon
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -40,8 +41,9 @@ fun CountryListFilterSection(
             RoundedCornerShape(4.dp)
         ) {
             Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.Center) {
-                Icon(painter = painterResource(id = R.drawable.globe), contentDescription = "icon" )
-                Text(text = "EN", fontSize = 12.sp, lineHeight = 19.sp, modifier = Modifier.padding(start = 10.dp))
+                Icon(painter = painterResource(id = R.drawable.globe), contentDescription = "icon",  )
+                Text(text = "EN", style = MaterialTheme.typography.caption, lineHeight = 19.sp, modifier = Modifier.padding
+                    (start = 10.dp), )
             }
         }
 
@@ -59,8 +61,9 @@ fun CountryListFilterSection(
         ) {
             Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.Center) {
                 Icon(painter = painterResource(id = R.drawable.filter), contentDescription = "icon", Modifier.size(18
-                    .dp) )
-                Text(text = "Filter", fontSize = 12.sp, lineHeight = 19.sp, modifier = Modifier.padding(start = 11.dp))
+                    .dp), )
+                Text(text = "Filter", style = MaterialTheme.typography.caption, lineHeight = 19.sp, modifier =
+                Modifier.padding(start = 11.dp),)
             }
         }
     }

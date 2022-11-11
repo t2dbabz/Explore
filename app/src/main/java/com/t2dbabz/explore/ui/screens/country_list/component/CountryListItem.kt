@@ -3,6 +3,7 @@ package com.t2dbabz.explore.ui.screens.country_list.component
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -36,8 +37,8 @@ fun CountryListItem(country: Country, onItemClick: (Country) -> Unit) {
             contentScale = ContentScale.Crop
         )
         Column(modifier = Modifier.fillMaxHeight().padding(start = 16.dp), verticalArrangement = Arrangement.Center) {
-            Text(text = country.name, fontSize = 14.sp, lineHeight = 22.18.sp)
-            Text(text = country.capital, fontSize = 14.sp, lineHeight = 22.18.sp, modifier = Modifier.padding(top = 2.dp))
+            Text(text = country.name, lineHeight = 22.18.sp, style = MaterialTheme.typography.body2, )
+            Text(text = country.capital, style = MaterialTheme.typography.body2)
         }
     }
 }
