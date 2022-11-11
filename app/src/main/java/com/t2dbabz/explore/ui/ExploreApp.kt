@@ -6,6 +6,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.accompanist.navigation.material.ExperimentalMaterialNavigationApi
+import com.google.accompanist.navigation.material.rememberBottomSheetNavigator
 import com.ramcosta.composedestinations.DestinationsNavHost
 import com.ramcosta.composedestinations.animations.rememberAnimatedNavHostEngine
 import com.ramcosta.composedestinations.navigation.dependency
@@ -20,12 +21,13 @@ fun ExploreApp(activity: MainActivity) {
 
     val engine = rememberAnimatedNavHostEngine()
     val navController = engine.rememberNavController()
-
+    val bottomSheetNavigator = rememberBottomSheetNavigator()
 
     ExploreScaffold(
         startRoute = NavGraphs.root.startRoute,
         navController = navController,
-        topBar = { destination, navBackStackEntry -> TopBar(destination, navBackStackEntry) }
+        bottomSheetNavigator,
+        topBar = { destination, navBackStackEntry -> TopBar(destination, navBackStackEntry, navController) }
     ) {
         DestinationsNavHost(
             engine = engine,
@@ -34,6 +36,8 @@ fun ExploreApp(activity: MainActivity) {
             modifier = Modifier.padding(it),
             dependenciesContainerBuilder = {
                 dependency(hiltViewModel<MainViewModel>(activity))
+
+                dependency(bottomSheetNavigator)
             }
         )
 
