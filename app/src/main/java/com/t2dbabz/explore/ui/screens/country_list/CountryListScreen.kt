@@ -1,5 +1,6 @@
 package com.t2dbabz.explore.ui.screens.country_list
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -45,14 +46,30 @@ fun CountryListScreen(viewModel: MainViewModel, navigator: DestinationsNavigator
         Spacer(modifier = Modifier.height(16.dp))
         Box(modifier = Modifier.fillMaxSize()) {
             LazyColumn() {
-                items(state.countries.sortedBy { it.name }) {
-                    CountryListItem(it) {country ->
-
-                        viewModel.setSelectedCountry(country)
-                        navigator.navigate(CountryDetailScreenDestination(country))
+                state.countries?.forEach {(initial, countries) ->
+                    item {
+                        Text(
+                            text = initial.toString(),
+                            modifier = Modifier
+                                .padding(
+                                    end = 4.dp,
+                                    bottom = 4.dp
+                                )
+                                .background(MaterialTheme.colors.background),
+                            color = MaterialTheme.colors.onPrimary
+                        )
                     }
 
+                    items(countries) {
+                        CountryListItem(it) {country ->
+
+                            viewModel.setSelectedCountry(country)
+                            navigator.navigate(CountryDetailScreenDestination(country))
+                        }
+
+                    }
                 }
+
             }
 
 

@@ -85,7 +85,8 @@ class MainViewModel @Inject constructor(
                     _countryListScreenState.value = CountryListScreenState(isLoading = true)
                 }
                 is Resource.Success -> {
-                    _countryListScreenState.value = CountryListScreenState(countries = result.data ?: emptyList())
+                    val groupedCountries = result.data?.sortedBy { it.name }?.groupBy { it.name[0] }
+                    _countryListScreenState.value = CountryListScreenState(countries = groupedCountries )
                     result.data?.let { filteredList.addAll(it.toList()) }
                 }
                 is Resource.Error -> {
@@ -124,7 +125,8 @@ class MainViewModel @Inject constructor(
                 }
 
 
-            _countryListScreenState.value = _countryListScreenState.value.copy(countries = newCountryList)
+            _countryListScreenState.value = _countryListScreenState.value.copy(countries = newCountryList.sortedBy {
+                it.name }.groupBy { it.name[0] })
         }
 
     }
@@ -163,7 +165,8 @@ class MainViewModel @Inject constructor(
                 val result =  filteredList.filter { it.timeZone == timezone }
                 newFilteredList.addAll(result)
             }
-            _countryListScreenState.value = _countryListScreenState.value.copy(countries = newFilteredList.distinct())
+            _countryListScreenState.value = _countryListScreenState.value.copy(countries = newFilteredList.distinct()
+                .sortedBy { it.name }.groupBy { it.name[0] })
         }
 
     }
@@ -182,7 +185,8 @@ class MainViewModel @Inject constructor(
             }
         }
 
-        _countryListScreenState.value = _countryListScreenState.value.copy(countries = filteredList)
+        _countryListScreenState.value = _countryListScreenState.value.copy(countries = filteredList.sortedBy { it
+            .name }.groupBy { it.name[0] })
     }
 
     fun updateAppTheme(darkMode: Boolean) = viewModelScope.launch {
