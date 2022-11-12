@@ -17,7 +17,7 @@ import com.t2dbabz.explore.ui.screens.NavGraphs
 
 @OptIn(ExperimentalAnimationApi::class, ExperimentalMaterialNavigationApi::class)
 @Composable
-fun ExploreApp(activity: MainActivity) {
+fun ExploreApp(activity: MainActivity, isAppDarkMode: Boolean) {
 
     val engine = rememberAnimatedNavHostEngine()
     val navController = engine.rememberNavController()
@@ -27,7 +27,7 @@ fun ExploreApp(activity: MainActivity) {
         startRoute = NavGraphs.root.startRoute,
         navController = navController,
         bottomSheetNavigator,
-        topBar = { destination, navBackStackEntry -> TopBar(destination, navBackStackEntry, navController) }
+        topBar = { destination, navBackStackEntry -> TopBar(destination, navBackStackEntry, navController, isAppDarkMode) }
     ) {
         DestinationsNavHost(
             engine = engine,

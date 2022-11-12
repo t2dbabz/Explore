@@ -37,13 +37,13 @@ fun CountryListFilterSection(
                        onLanguageClicked()
                 },
             border = BorderStroke(width = 0.2.dp, color = FilterBorder),
-            shape =
-            RoundedCornerShape(4.dp)
+            shape = RoundedCornerShape(4.dp),
+            backgroundColor = MaterialTheme.colors.background
         ) {
             Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.Center) {
                 Icon(painter = painterResource(id = R.drawable.globe), contentDescription = "icon",  )
                 Text(text = "EN", style = MaterialTheme.typography.caption, lineHeight = 19.sp, modifier = Modifier.padding
-                    (start = 10.dp), )
+                    (start = 10.dp), color = MaterialTheme.colors.onPrimary )
             }
         }
 
@@ -57,13 +57,14 @@ fun CountryListFilterSection(
                      onCountryListFilterClicked()
                 },
             border = BorderStroke(width = 0.2.dp, color = FilterBorder),
-            shape = RoundedCornerShape(4.dp)
+            shape = RoundedCornerShape(4.dp),
+            backgroundColor = MaterialTheme.colors.background
         ) {
             Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.Center) {
                 Icon(painter = painterResource(id = R.drawable.filter), contentDescription = "icon", Modifier.size(18
                     .dp), )
                 Text(text = "Filter", style = MaterialTheme.typography.caption, lineHeight = 19.sp, modifier =
-                Modifier.padding(start = 11.dp),)
+                Modifier.padding(start = 11.dp),color = MaterialTheme.colors.onPrimary)
             }
         }
     }

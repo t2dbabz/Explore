@@ -1,39 +1,36 @@
 package com.t2dbabz.explore.ui.composables
 
-import android.telecom.Call.Details
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
-import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavController
-import androidx.navigation.NavHostController
 import com.t2dbabz.explore.R
 import com.t2dbabz.explore.ui.MainViewModel
 import com.t2dbabz.explore.ui.screens.destinations.CountryDetailScreenDestination
 import com.t2dbabz.explore.ui.screens.destinations.CountryListScreenDestination
 import com.t2dbabz.explore.ui.screens.destinations.Destination
 import com.t2dbabz.explore.ui.theme.ElsieSwashCaps
-import com.t2dbabz.explore.ui.theme.HeaderColor
+import com.t2dbabz.explore.ui.theme.FilterButton
 
 @Composable
-fun TopBar(destination: Destination, navBackStackEntry: NavBackStackEntry?, navController: NavController) {
+fun TopBar(destination: Destination, navBackStackEntry: NavBackStackEntry?, navController: NavController,
+           isAppThemeDarkMode: Boolean) {
 
-    val country = viewModel<MainViewModel>().countryDetailScreenState.value.country
+    val viewModel = viewModel<MainViewModel>()
+    val state = viewModel.countryDetailScreenState.value
 
     when(destination) {
         CountryListScreenDestination -> {
@@ -45,22 +42,26 @@ fun TopBar(destination: Destination, navBackStackEntry: NavBackStackEntry?, navC
                             withStyle(SpanStyle(fontFamily = ElsieSwashCaps, fontSize = 20.sp)) {
                                 append("Explore")
                             }
-                            withStyle(SpanStyle(fontFamily = ElsieSwashCaps, fontSize = 20.sp, color = Color.Red)) {
+                            withStyle(SpanStyle(fontFamily = ElsieSwashCaps, fontSize = 20.sp, color = FilterButton)) {
                                 append(".")
                             }
                         },
                         fontSize = 24.sp,
                         fontFamily = ElsieSwashCaps,
+                        color = MaterialTheme.colors.onPrimary
                     )
                 },
                 elevation = 0.dp,
                 backgroundColor = MaterialTheme.colors.background,
                 actions = {
-                    IconButton(onClick = { /*TODO*/ }) {
+                    IconButton(onClick = {
+                        viewModel.updateAppTheme(darkMode = !isAppThemeDarkMode)
+                    }) {
                         Icon(
-                            painter = painterResource(id = R.drawable.ic_outline_light),
+                            painter = if (isAppThemeDarkMode) painterResource(id = R.drawable.ic_dark_mode ) else painterResource
+                                (id = R.drawable.ic_outline_light ),
                             contentDescription = "light mode",
-                            tint = Color.Black
+                            tint = MaterialTheme.colors.onPrimary
                         )
                     }
                 }
@@ -84,20 +85,22 @@ fun TopBar(destination: Destination, navBackStackEntry: NavBackStackEntry?, navC
                 },
                 title = {
                     Box(modifier = Modifier.padding(horizontal = 100.dp),  Alignment.Center){
-                        if (country != null) {
-                            if (country.name.length > 10 ) {
+                        if (state.country != null) {
+                            if (state.country.name.length > 9 ) {
                                 Text(
-                                    text = country.name,
+                                    text = state.country.name,
                                     textAlign = TextAlign.Center,
                                     fontSize = 16.sp,
-                                    fontWeight = FontWeight.Bold
+                                    fontWeight = FontWeight.Bold,
+                                    color = MaterialTheme.colors.onPrimary
                                 )
                             } else {
                                 Text(
-                                    text = country.name,
+                                    text = state.country.name,
                                     textAlign = TextAlign.Center,
                                     fontSize = 20.sp,
-                                    fontWeight = FontWeight.Bold
+                                    fontWeight = FontWeight.Bold,
+                                    color = MaterialTheme.colors.onPrimary
                                 )
                             }
                         }

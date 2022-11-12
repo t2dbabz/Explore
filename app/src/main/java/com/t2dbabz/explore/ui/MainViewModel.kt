@@ -6,6 +6,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.t2dbabz.explore.common.Resource
+import com.t2dbabz.explore.data.datastore.UserPreferences
 import com.t2dbabz.explore.domain.model.Continent
 import com.t2dbabz.explore.domain.model.Country
 import com.t2dbabz.explore.domain.model.TimeZone
@@ -16,13 +17,17 @@ import com.t2dbabz.explore.ui.screens.country_list.CountryListScreenState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class MainViewModel @Inject constructor (private val countryRepository: CountryRepository): ViewModel() {
+class MainViewModel @Inject constructor(
+    private val countryRepository: CountryRepository,
+    private val userPreferences: UserPreferences
+): ViewModel() {
 
     private val _countryListScreenState = mutableStateOf(CountryListScreenState())
     val countryListScreenState: State<CountryListScreenState> = _countryListScreenState
@@ -58,8 +63,19 @@ class MainViewModel @Inject constructor (private val countryRepository: CountryR
     val timeZoneList: List<TimeZone> = _timeZonesList
 
     init {
-
+        loadAppConfig()
         getCountry()
+    }
+
+    private fun loadAppConfig() = viewModelScope.launch {
+        userPreferences.isAppThemeDarkMode .collectLatest { isDarkTheme ->
+            _countryListScreenState.value = _countryListScreenState.value.copy(isAppThemeDarkMode = isDarkTheme)
+            //delayToShowCustomAnimationOnAppStartup()
+        }
+    }
+
+    fun getUserPreference(): UserPreferences {
+        return userPreferences
     }
 
     private fun getCountry() {
@@ -169,6 +185,9 @@ class MainViewModel @Inject constructor (private val countryRepository: CountryR
         _countryListScreenState.value = _countryListScreenState.value.copy(countries = filteredList)
     }
 
+    fun updateAppTheme(darkMode: Boolean) = viewModelScope.launch {
+        userPreferences.updateAppTheme(darkMode = darkMode)
+    }
 
 
 }

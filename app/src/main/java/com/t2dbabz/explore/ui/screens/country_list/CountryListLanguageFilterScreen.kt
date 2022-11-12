@@ -1,5 +1,6 @@
 package com.t2dbabz.explore.ui.screens.country_list
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.selection.selectable
@@ -26,16 +27,17 @@ fun CountryListLanguageFilterScreen(bottomSheetNavigator: BottomSheetNavigator,n
 
     Column(modifier = Modifier
         .fillMaxSize()
+        .background(color = MaterialTheme.colors.background)
         .padding(start = 24.dp, end = 24.dp, top = 24.dp)) {
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Text(text = "Languages", style = MaterialTheme.typography.h6)
+            Text(text = "Languages", style = MaterialTheme.typography.h6, color = MaterialTheme.colors.onPrimary)
             Icon(imageVector = Icons.Default.Clear, contentDescription = "", modifier = Modifier.clickable {
                 navigator.navigateUp()
-            })
+            }, tint = MaterialTheme.colors.onPrimary)
         }
         Spacer(modifier = Modifier.height(24.dp))
         LanguageFilterSection(){
@@ -64,13 +66,13 @@ fun LanguageFilterSection(onOptionSelect:(String) -> Unit){
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
-                    Text(text = languages, style = MaterialTheme.typography.subtitle1)
+                    Text(text = languages, style = MaterialTheme.typography.subtitle1, color = MaterialTheme.colors.onPrimary)
                     RadioButton(
                         selected = (languages == selectedOption),
                         onClick = { onOptionSelected(languages) },
                         colors = RadioButtonDefaults.colors(
-                            selectedColor = Color.Black,
-                            unselectedColor = Color.DarkGray,
+                            selectedColor = MaterialTheme.colors.onPrimary,
+                            unselectedColor = MaterialTheme.colors.onPrimary,
                             disabledColor = Color.White
                         )
 

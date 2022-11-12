@@ -1,11 +1,8 @@
 package com.t2dbabz.explore.ui.screens.country_list
 
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Clear
@@ -30,13 +27,14 @@ import com.t2dbabz.explore.ui.theme.FilterButton
 fun CountryListFilterScreen(navigator: DestinationsNavigator, viewModel: MainViewModel) {
     Column(modifier = Modifier
         .fillMaxSize()
+        .background(color = MaterialTheme.colors.background)
         .padding(start = 24.dp, end = 24.dp, top = 24.dp)
         .verticalScroll(rememberScrollState())) {
         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
-            Text(text = "Filter", style = MaterialTheme.typography.h6)
+            Text(text = "Filter", style = MaterialTheme.typography.h6, color = MaterialTheme.colors.onPrimary)
             Icon(imageVector = Icons.Default.Clear, contentDescription = "", modifier = Modifier.clickable {
                 navigator.navigateUp()
-            })
+            }, tint = MaterialTheme.colors.onPrimary)
         }
         Spacer(modifier = Modifier.height(24.dp))
         ContinentFilterSection(viewModel.continentList){index, isSelected ->
@@ -80,9 +78,9 @@ fun ContinentFilterSection(
                 isExpanded = !isExpanded
             }, horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment
         = Alignment.CenterVertically) {
-          Text(text = "Continent", style = MaterialTheme.typography.subtitle1, fontWeight = FontWeight.Bold)
+          Text(text = "Continent", style = MaterialTheme.typography.subtitle1, fontWeight = FontWeight.Bold, color = MaterialTheme.colors.onPrimary)
           Icon(imageVector = if (isExpanded) Icons.Default.KeyboardArrowUp else Icons.Default.KeyboardArrowDown, contentDescription =
-          "")
+          "", tint = MaterialTheme.colors.onPrimary)
         }
         Spacer(modifier = Modifier.height(16.dp))
 
@@ -97,7 +95,7 @@ fun ContinentFilterSection(
                             verticalAlignment = Alignment.CenterVertically
                         ) {
 
-                            Text(text = continent.name)
+                            Text(text = continent.name, color = MaterialTheme.colors.onPrimary)
                             Checkbox(
                                 checked =continent.isSelected,
                                 onCheckedChange = {
@@ -105,9 +103,9 @@ fun ContinentFilterSection(
                                 },
                                 enabled = true,
                                 colors = CheckboxDefaults.colors(
-                                    checkedColor = Color.Black,
-                                    uncheckedColor = Color.DarkGray,
-                                    checkmarkColor = Color.White
+                                    checkedColor = MaterialTheme.colors.onPrimary,
+                                    uncheckedColor = MaterialTheme.colors.onPrimary,
+                                    checkmarkColor = MaterialTheme.colors.background
                                 )
                             )
 
@@ -138,9 +136,9 @@ fun TimeZoneFilterSection(
                 isExpanded = !isExpanded
             }, horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment
         = Alignment.CenterVertically) {
-            Text(text = "Time Zone",  style = MaterialTheme.typography.subtitle1, fontWeight = FontWeight.Bold)
+            Text(text = "Time Zone",  style = MaterialTheme.typography.subtitle1, fontWeight = FontWeight.Bold, color = MaterialTheme.colors.onPrimary)
             Icon(imageVector =  if (isExpanded) Icons.Default.KeyboardArrowUp else Icons.Default.KeyboardArrowDown,
-                contentDescription = "")
+                contentDescription = "", tint = MaterialTheme.colors.onPrimary)
         }
         Spacer(modifier = Modifier.height(16.dp))
         AnimatedVisibility(visible = isExpanded) {
@@ -155,7 +153,7 @@ fun TimeZoneFilterSection(
                             verticalAlignment = Alignment.CenterVertically
                         ) {
 
-                            Text(text = timezone.timeZone)
+                            Text(text = timezone.timeZone, color = MaterialTheme.colors.onPrimary)
                             Checkbox(
                                 checked = timezone.isSelected,
                                 onCheckedChange = { onTimeZoneSelectedAtIndex(index, it) },
@@ -183,8 +181,9 @@ fun TimeZoneFilterSection(
 fun FilterButtonSection(onRestButtonClicked: () -> Unit, onShowResultButtonClicked: () -> Unit) {
     Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
         OutlinedButton(modifier = Modifier.size(height = 48.dp, width = 104.dp),onClick = onRestButtonClicked, border = BorderStroke
-            (1.dp, color = MaterialTheme.colors.onSurface)) {
-            Text(text = "Reset", style = MaterialTheme.typography.button, color = MaterialTheme.colors.onBackground)
+            (1.dp, color = MaterialTheme.colors.onPrimary), colors = ButtonDefaults.buttonColors(backgroundColor =
+        MaterialTheme.colors.background)) {
+            Text(text = "Reset", style = MaterialTheme.typography.button, color = MaterialTheme.colors.onPrimary)
         }
         
         Button(modifier = Modifier.size(height = 48.dp, width = 200.dp),onClick = onShowResultButtonClicked, colors =
@@ -192,7 +191,7 @@ fun FilterButtonSection(onRestButtonClicked: () -> Unit, onShowResultButtonClick
             .buttonColors
             (backgroundColor
         = FilterButton)) {
-            Text(text = "Show results",style = MaterialTheme.typography.button, color = MaterialTheme.colors.background)
+            Text(text = "Show results",style = MaterialTheme.typography.button, color = Color.White)
         }
     }
 }

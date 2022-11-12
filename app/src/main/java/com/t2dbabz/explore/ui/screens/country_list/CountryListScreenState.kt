@@ -6,5 +6,6 @@ data class CountryListScreenState(
     val countries: List<Country> = emptyList(),
     val isLoading: Boolean = false,
     val error: String = "",
-    val searchQuery: String = ""
+    val searchQuery: String = "",
+    val isAppThemeDarkMode: Boolean? = null,
 )

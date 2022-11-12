@@ -9,7 +9,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t2dbabz.explore.R
-import com.t2dbabz.explore.ui.theme.GraySearch
 
 
 @Composable
@@ -19,6 +18,7 @@ fun SearchBar(
     onSearchQueryChange: (String) -> Unit,
 ) {
     TextField(
+
         value = searchQuery,
         onValueChange = {
                   onSearchQueryChange(it)
@@ -30,7 +30,7 @@ fun SearchBar(
             )
         },
         colors = TextFieldDefaults.textFieldColors(
-            backgroundColor = GraySearch
+            backgroundColor = MaterialTheme.colors.surface
         ),
         maxLines = 1,
         singleLine = true,
@@ -39,6 +39,8 @@ fun SearchBar(
         },
         modifier = modifier
             .fillMaxWidth()
-            .heightIn(min = 56.dp)
+            .heightIn(min = 56.dp),
+
+
     )
 }

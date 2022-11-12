@@ -37,8 +37,9 @@ fun CountryListItem(country: Country, onItemClick: (Country) -> Unit) {
             contentScale = ContentScale.Crop
         )
         Column(modifier = Modifier.fillMaxHeight().padding(start = 16.dp), verticalArrangement = Arrangement.Center) {
-            Text(text = country.name, lineHeight = 22.18.sp, style = MaterialTheme.typography.body2, )
-            Text(text = country.capital, style = MaterialTheme.typography.body2)
+            Text(text = country.name, lineHeight = 22.18.sp, style = MaterialTheme.typography.body2, color =
+            MaterialTheme.colors.onPrimary )
+            Text(text = country.capital, style = MaterialTheme.typography.body2, color = MaterialTheme.colors.onSecondary)
         }
     }
 }

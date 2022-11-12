@@ -27,3 +27,5 @@ val DarkIconTint = Color(0xFFD0D5DD)
 val LightIconTint = Color(0xFF1C1917)
 
 val FilterButton = Color(0xFFFF6C00)
+
+val DarkOnPrimary = Color(0xFFEAECF0)
