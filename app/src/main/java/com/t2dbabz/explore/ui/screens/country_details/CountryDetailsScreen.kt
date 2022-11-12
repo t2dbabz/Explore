@@ -24,6 +24,7 @@ import coil.request.ImageRequest
 import com.ramcosta.composedestinations.annotation.Destination
 import com.t2dbabz.explore.domain.model.Country
 import com.t2dbabz.explore.R
+import com.t2dbabz.explore.ui.util.formatDecimalSeparator
 
 
 @Destination
@@ -35,7 +36,7 @@ fun CountryDetailScreen(country: Country) {
         .fillMaxSize()
         .padding(horizontal = 24.dp)
         .verticalScroll(rememberScrollState())) {
-        CountryImage(country)
+        CountryImagesPager(country = country)
 
         Spacer(modifier = Modifier.height(24.dp))
 
@@ -84,7 +85,7 @@ fun CountryDetailsSectionOne(country: Country){
             }
             append(" ")
             withStyle(style = SpanStyle(color = MaterialTheme.colors.onPrimary, fontWeight = FontWeight.Light)){
-                append(country.population.toString())
+                append(country.population.formatDecimalSeparator())
             }
         })
 
