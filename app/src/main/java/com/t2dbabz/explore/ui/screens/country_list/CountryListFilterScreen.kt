@@ -1,8 +1,11 @@
 package com.t2dbabz.explore.ui.screens.country_list
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Clear
@@ -20,13 +23,15 @@ import com.ramcosta.composedestinations.spec.DestinationStyle
 import com.t2dbabz.explore.domain.model.Continent
 import com.t2dbabz.explore.domain.model.TimeZone
 import com.t2dbabz.explore.ui.MainViewModel
+import com.t2dbabz.explore.ui.theme.FilterButton
 
 @Destination(style = DestinationStyle.BottomSheet::class)
 @Composable
 fun CountryListFilterScreen(navigator: DestinationsNavigator, viewModel: MainViewModel) {
     Column(modifier = Modifier
         .fillMaxSize()
-        .padding(start = 24.dp, end = 24.dp, top = 24.dp)) {
+        .padding(start = 24.dp, end = 24.dp, top = 24.dp)
+        .verticalScroll(rememberScrollState())) {
         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
             Text(text = "Filter", style = MaterialTheme.typography.h6)
             Icon(imageVector = Icons.Default.Clear, contentDescription = "", modifier = Modifier.clickable {
@@ -41,6 +46,21 @@ fun CountryListFilterScreen(navigator: DestinationsNavigator, viewModel: MainVie
         TimeZoneFilterSection(viewModel.timeZoneList){index, isSelected ->
             viewModel.setTimeZoneSelectedAtIndex(index, isSelected)
         }
+
+        Spacer(modifier = Modifier.height(24.dp))
+
+        FilterButtonSection(
+            onRestButtonClicked = {
+                viewModel.resetCountryListFilter()
+                navigator.navigateUp()
+            },
+            onShowResultButtonClicked = {
+                viewModel.applyFiltersToCountryList()
+                navigator.navigateUp()
+            }
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
     }
 }
 
@@ -126,7 +146,9 @@ fun TimeZoneFilterSection(
         AnimatedVisibility(visible = isExpanded) {
             Column {
                 timeZones.forEachIndexed { index, timezone ->
-                    Column(modifier = Modifier.fillMaxWidth().wrapContentSize()) {
+                    Column(modifier = Modifier
+                        .fillMaxWidth()
+                        .wrapContentSize()) {
                         Row(
                             modifier = Modifier.fillMaxWidth(),
                             horizontalArrangement = Arrangement.SpaceBetween,
@@ -154,5 +176,23 @@ fun TimeZoneFilterSection(
         }
 
 
+    }
+}
+
+@Composable
+fun FilterButtonSection(onRestButtonClicked: () -> Unit, onShowResultButtonClicked: () -> Unit) {
+    Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+        OutlinedButton(modifier = Modifier.size(height = 48.dp, width = 104.dp),onClick = onRestButtonClicked, border = BorderStroke
+            (1.dp, color = MaterialTheme.colors.onSurface)) {
+            Text(text = "Reset", style = MaterialTheme.typography.button, color = MaterialTheme.colors.onBackground)
+        }
+        
+        Button(modifier = Modifier.size(height = 48.dp, width = 200.dp),onClick = onShowResultButtonClicked, colors =
+        ButtonDefaults
+            .buttonColors
+            (backgroundColor
+        = FilterButton)) {
+            Text(text = "Show results",style = MaterialTheme.typography.button, color = MaterialTheme.colors.background)
+        }
     }
 }

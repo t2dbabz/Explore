@@ -107,10 +107,6 @@ class MainViewModel @Inject constructor (private val countryRepository: CountryR
                     country.name.contains(query,ignoreCase = true,)
                 }
 
-                newCountryList.filter { cou ->
-                    cou.region in continentFilterList()
-                }
-
 
             _countryListScreenState.value = _countryListScreenState.value.copy(countries = newCountryList)
         }
@@ -125,10 +121,52 @@ class MainViewModel @Inject constructor (private val countryRepository: CountryR
         _timeZonesList[index] = _timeZonesList[index].copy(isSelected = isSelected)
     }
 
-    private fun continentFilterList(): List<String> {
+    private fun continentFilter(): List<String> {
         val selectedContinent = _continentList.filter { it.isSelected }
-
         return selectedContinent.map { it.name }
+    }
+
+    private fun timezoneFilter(): List<String> {
+        val selectedTimezones = _timeZonesList.filter { it.isSelected }
+        return selectedTimezones.map { it.timeZone }
+    }
+
+
+    fun applyFiltersToCountryList() {
+        val newFilteredList = mutableListOf<Country>()
+        val continentFilterList = continentFilter()
+        val timezoneList = timezoneFilter()
+        viewModelScope.launch {
+
+            continentFilterList.forEach { continent ->
+                val result =  filteredList.filter { it.region == continent }
+                newFilteredList.addAll(result)
+            }
+
+            timezoneList.forEach { timezone ->
+                val result =  filteredList.filter { it.timeZone == timezone }
+                newFilteredList.addAll(result)
+            }
+            _countryListScreenState.value = _countryListScreenState.value.copy(countries = newFilteredList.distinct())
+        }
+
+    }
+
+    fun resetCountryListFilter(){
+
+        with(_continentList.iterator()) {
+            forEach {
+               it.isSelected = false
+            }
+        }
+
+        with(_timeZonesList.iterator()) {
+            forEach {
+                it.isSelected = false
+            }
+        }
+
+        _countryListScreenState.value = _countryListScreenState.value.copy(countries = filteredList)
     }
 
 
