@@ -13,15 +13,17 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.ramcosta.composedestinations.spec.DestinationStyle
+import com.t2dbabz.explore.domain.model.Continent
+import com.t2dbabz.explore.domain.model.TimeZone
+import com.t2dbabz.explore.ui.MainViewModel
 
 @Destination(style = DestinationStyle.BottomSheet::class)
 @Composable
-fun CountryListFilterScreen(navigator: DestinationsNavigator) {
+fun CountryListFilterScreen(navigator: DestinationsNavigator, viewModel: MainViewModel) {
     Column(modifier = Modifier
         .fillMaxSize()
         .padding(start = 24.dp, end = 24.dp, top = 24.dp)) {
@@ -32,16 +34,22 @@ fun CountryListFilterScreen(navigator: DestinationsNavigator) {
             })
         }
         Spacer(modifier = Modifier.height(24.dp))
-        ContinentFilterSection()
+        ContinentFilterSection(viewModel.continentList){index, isSelected ->
+            viewModel.setContinentSelectedAtIndex(index, isSelected)
+        }
         Spacer(modifier = Modifier.height(24.dp))
-        TimeZoneFilterSection()
+        TimeZoneFilterSection(viewModel.timeZoneList){index, isSelected ->
+            viewModel.setTimeZoneSelectedAtIndex(index, isSelected)
+        }
     }
 }
 
-@Preview
 @Composable
-fun ContinentFilterSection(){
-    val continents = listOf("Africa", "Americas", "Asia", "Europe", "Oceania")
+fun ContinentFilterSection(
+    continents: List<Continent>,
+    onContinentSelectedAtIndex: (Int, Boolean) -> Unit
+){
+
     var isExpanded by remember { mutableStateOf(false) }
     Column(modifier = Modifier
         .fillMaxWidth()
@@ -60,14 +68,21 @@ fun ContinentFilterSection(){
 
         AnimatedVisibility(visible = isExpanded) {
             Column() {
+
                 continents.forEachIndexed {  index, continent ->
                     Column(modifier = Modifier.wrapContentSize()) {
-                        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
-                            val isChecked = remember { mutableStateOf(false) }
-                            Text(text = continent)
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+
+                            Text(text = continent.name)
                             Checkbox(
-                                checked = isChecked.value,
-                                onCheckedChange = { isChecked.value = it },
+                                checked =continent.isSelected,
+                                onCheckedChange = {
+                                            onContinentSelectedAtIndex(index, it)
+                                },
                                 enabled = true,
                                 colors = CheckboxDefaults.colors(
                                     checkedColor = Color.Black,
@@ -87,10 +102,13 @@ fun ContinentFilterSection(){
     }
 }
 
-@Preview
+
 @Composable
-fun TimeZoneFilterSection(){
-    val timeZones = listOf("UTC", "UTC+01:00", "UTC+02:00", "UTC+03:00", "UTC+04:00")
+fun TimeZoneFilterSection(
+    timeZones: List<TimeZone>,
+    onTimeZoneSelectedAtIndex: (Int, Boolean) -> Unit
+){
+
     var isExpanded by remember { mutableStateOf(false) }
     Column(modifier = Modifier.fillMaxWidth()) {
 
@@ -109,12 +127,16 @@ fun TimeZoneFilterSection(){
             Column {
                 timeZones.forEachIndexed { index, timezone ->
                     Column(modifier = Modifier.fillMaxWidth().wrapContentSize()) {
-                        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
-                            val isChecked = remember { mutableStateOf(false) }
-                            Text(text = timezone)
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+
+                            Text(text = timezone.timeZone)
                             Checkbox(
-                                checked = isChecked.value,
-                                onCheckedChange = { isChecked.value = it },
+                                checked = timezone.isSelected,
+                                onCheckedChange = { onTimeZoneSelectedAtIndex(index, it) },
                                 enabled = true,
                                 colors = CheckboxDefaults.colors(
                                     checkedColor = Color.Black,

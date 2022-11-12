@@ -1,11 +1,14 @@
 package com.t2dbabz.explore.ui
 
 import androidx.compose.runtime.State
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.t2dbabz.explore.common.Resource
+import com.t2dbabz.explore.domain.model.Continent
 import com.t2dbabz.explore.domain.model.Country
+import com.t2dbabz.explore.domain.model.TimeZone
 import com.t2dbabz.explore.domain.model.repository.CountryRepository
 import com.t2dbabz.explore.ui.screens.country_details.CountryDetailScreenState
 import com.t2dbabz.explore.ui.screens.country_list.CountryListScreenEvent
@@ -29,7 +32,30 @@ class MainViewModel @Inject constructor (private val countryRepository: CountryR
 
     private var searchJob: Job? = null
 
-    val filteredList = mutableListOf<Country>()
+    private val filteredList = mutableListOf<Country>()
+
+
+    private val _continentList = mutableStateListOf(
+        Continent("Africa", isSelected = false),
+        Continent("Americas", isSelected = false),
+        Continent("Asia", isSelected = false),
+        Continent("Europe", isSelected = false),
+        Continent("Oceania", isSelected = false),
+        Continent("Antarctic", isSelected = false),
+    )
+
+    val continentList: List<Continent> = _continentList
+
+    private val _timeZonesList = mutableStateListOf(
+        TimeZone("UTC",false),
+        TimeZone("UTC+01:00",false),
+        TimeZone("UTC+02:00",false),
+        TimeZone("UTC+03:00",false),
+        TimeZone("UTC+04:00",false),
+        TimeZone("UTC+05:00",false),
+    )
+
+    val timeZoneList: List<TimeZone> = _timeZonesList
 
     init {
 
@@ -81,10 +107,30 @@ class MainViewModel @Inject constructor (private val countryRepository: CountryR
                     country.name.contains(query,ignoreCase = true,)
                 }
 
+                newCountryList.filter { cou ->
+                    cou.region in continentFilterList()
+                }
+
+
             _countryListScreenState.value = _countryListScreenState.value.copy(countries = newCountryList)
         }
 
     }
+
+    fun setContinentSelectedAtIndex(index: Int, isSelected: Boolean) {
+        _continentList[index] = _continentList[index].copy(isSelected = isSelected)
+    }
+
+    fun setTimeZoneSelectedAtIndex(index: Int, isSelected: Boolean) {
+        _timeZonesList[index] = _timeZonesList[index].copy(isSelected = isSelected)
+    }
+
+    private fun continentFilterList(): List<String> {
+        val selectedContinent = _continentList.filter { it.isSelected }
+
+        return selectedContinent.map { it.name }
+    }
+
 
 
 }
