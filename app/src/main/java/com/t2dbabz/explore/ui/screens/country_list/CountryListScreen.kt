@@ -13,7 +13,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.ramcosta.composedestinations.annotation.Destination
-import com.ramcosta.composedestinations.annotation.RootNavGraph
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.t2dbabz.explore.ui.MainViewModel
 import com.t2dbabz.explore.ui.screens.country_list.component.CountryListFilterSection
@@ -23,7 +22,7 @@ import com.t2dbabz.explore.ui.screens.destinations.CountryDetailScreenDestinatio
 import com.t2dbabz.explore.ui.screens.destinations.CountryListFilterScreenDestination
 import com.t2dbabz.explore.ui.screens.destinations.CountryListLanguageFilterScreenDestination
 
-@RootNavGraph(start = true)
+
 @Destination
 @Composable
 fun CountryListScreen(viewModel: MainViewModel, navigator: DestinationsNavigator) {
