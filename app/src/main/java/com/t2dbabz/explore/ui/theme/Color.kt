@@ -29,3 +29,5 @@ val LightIconTint = Color(0xFF1C1917)
 val FilterButton = Color(0xFFFF6C00)
 
 val DarkOnPrimary = Color(0xFFEAECF0)
+
+val PagerIcon = Color(0xFFFCFCFD)
