@@ -4,6 +4,13 @@ with their details was gotten from the <a href="https://restcountries.com/#rest-
 <p>This project was developed for HNG 9 Mobile Track Stage 3 Task.</p>
 
 
+## Features of the app
+* Shows a list of Countries and ountry detail
+* Search and Filter list of countries by continent and timezone.
+* Dark Mode
+
+
+
 ## App Architecture
 For this project, I wanted to apply some common app architecture principles which are seperation of concerns, driving UI from data models and single source of truth.
 
@@ -42,7 +49,39 @@ You need the following requirements to run this project
 *   Kotlin version 1.7.20
 *   Gradle 7.2.2
 
+To run this project
+* Download this code and import the project on Android Studio. <a href="https://www.youtube.com/watch?v=hPEjSymSV4s" target="_blank">Video tutorial</a>
+
 ## Try out the app
-You can test the app on appetize.io <a href="https://appetize.io/app/fcla3xjtc6ack3yqrmymtjv5hu" target="_blank">Link</a>. 
+You can test the app on appetize.io 
+* [Link](https://appetize.io/app/fcla3xjtc6ack3yqrmymtjv5hu)
+
+## Download App APK
+* [Download](https://github.com/t2dbabz/Explore/raw/main/app/release/Explore.apk)
+
+## Challenges
+During the development the app, i faced a few challenges. some of the challenges where
+
+* Implementing the search and filter country list by continent and timezone.
+* Finding the what was causing the app crash when getting the api response.
+* Implementing some of the UI components based on the design.
+
+## Features I would like to Implement
+* Changinng app language based on the user preference.
+* offline cache
+* open country map on a map app when the map link is clicked
 
 
+## Screenshots
+<table>
+    <tr>
+    <td>Countries list Screen</td>
+      <td>Country Details Screen</td>
+    <td>Dark Mode</td>
+  </tr>
+   <tr>
+    <td><img src="screenshots/explore_1.png" width=250 height=480></td>
+    <td><img src="screenshots/explore_2.png" width=250 height=480></td>
+    <td><img src="screenshots/explore_3.png" width=250 height=480></td>
+  </tr>
+  </table>
